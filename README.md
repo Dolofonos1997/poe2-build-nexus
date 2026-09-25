@@ -108,3 +108,4 @@ Connected Build Lab: deployable backend contract, cache-aware PoE 2 economy adap
 
 ## V19 Upgrade Intelligence
 See `V19_UPGRADE_INTELLIGENCE.md` for the new upgrade assistant, weakness scanner, whole-build constraints, build value audit, trade handoff and interactive progression model.
+
