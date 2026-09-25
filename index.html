@@ -2518,3 +2518,92 @@ function v19Panel(){if(!ACTIVE_BUILD)return;let ov=document.getElementById('over
 const _v19OpenBuild=openBuild;openBuild=function(id){_v19OpenBuild(id);setTimeout(v19Panel,0)};
 setTimeout(()=>{document.querySelectorAll('.v11pill').forEach(x=>x.textContent='V19 Upgrade Intelligence');let f=document.querySelector('.hubFooter');if(f)f.textContent='PoE 2 Build Nexus V19 · upgrade assistant, weakness scanner, whole-build constraints, trade handoff, build value & interactive progression · V18 community + Temple Planner preserved';},0);
 </script>
+
+<style>
+/* V24 Temple UX */
+.v24slot{min-height:58px;text-align:left;display:flex;align-items:center;gap:8px;position:relative}
+.v24slot.empty{border-style:dashed;color:#91a0b5;background:#101722}
+.v24slot .slotNo{font-size:9px;position:absolute;right:6px;top:4px;color:#6f7f94}
+.v24picker{position:fixed;inset:0;background:#000c;z-index:180;display:none;padding:18px;overflow:auto}
+.v24picker.show{display:block}.v24pickerPanel{max-width:760px;margin:4vh auto;background:#0d141e;border:1px solid #58677d;border-radius:12px;overflow:hidden}
+.v24pickerHead{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#171f2b}.v24pickerHead button{width:auto}
+.v24pickerBody{padding:12px}.v24pickerGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:60vh;overflow:auto}
+.v24pick{display:flex;align-items:center;gap:7px;text-align:left}.v24pick span{font-size:18px}.v24source{font-size:9px;color:#8797ad;margin-top:8px}
+@media(max-width:620px){.v24pickerGrid{grid-template-columns:1fr 1fr}.cards{grid-template-columns:1fr 1fr}}
+.templeEdge{filter:drop-shadow(0 1px 1px #000)}
+</style>
+<div id="v24picker" class="v24picker" aria-hidden="true"><div class="v24pickerPanel"><div class="v24pickerHead"><b id="v24pickerTitle">Choose Live Room Card</b><button id="v24pickerClose">Close</button></div><div class="v24pickerBody"><input id="v24pickerSearch" placeholder="Search room cards..."><div id="v24pickerGrid" class="v24pickerGrid"></div><div class="v24source">Choose the six cards currently shown in your in-game Atziri's Temple hand. Local room symbols are retained as reliable offline fallbacks.</div></div></div></div>
+<script>
+// V24 Temple UX — manual six-card Live Hand + clearer connection arrows.
+(function(){
+  const EMPTY=null;
+  hand=Array(6).fill(EMPTY); handSel=0;
+  window.activePick=function(){return mode.value==="live"?(hand[handSel]||null):pick};
+
+  function liveCardKeys(){return Object.keys(R).filter(k=>k!=="architect"&&k!=="royal")}
+  window.v24OpenPicker=function(slot){
+    handSel=slot;
+    const sh=document.getElementById("v24picker"),grid=document.getElementById("v24pickerGrid"),q=document.getElementById("v24pickerSearch");
+    document.getElementById("v24pickerTitle").textContent="Choose Live Room Card · Slot "+(slot+1);
+    const paint=()=>{
+      const s=(q.value||"").toLowerCase();
+      grid.innerHTML='<button class="v24pick danger" data-k=""><span>×</span><b>Clear slot</b></button>'+liveCardKeys().filter(k=>(R[k].n+" "+R[k].t.join(" ")).toLowerCase().includes(s)).map(k=>'<button class="v24pick" data-k="'+k+'"><span>'+roomIcon(k)+'</span><b>'+R[k].n+'</b></button>').join("");
+      grid.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{
+        pushUndo();hand[slot]=b.dataset.k||EMPTY;handSel=slot;sh.classList.remove("show");renderHand();draw();
+        reward.innerHTML=hand[slot]?'<div class="notice ok"><b>Live Card '+(slot+1)+': '+R[hand[slot]].n+'</b><br>Place this card on a legal highlighted tile, or choose another slot.</div>':'<div class="notice info"><b>Live Card '+(slot+1)+' cleared.</b></div>';
+      });
+    };
+    q.value="";q.oninput=paint;paint();sh.classList.add("show");sh.setAttribute("aria-hidden","false");q.focus();
+  };
+  document.getElementById("v24pickerClose").onclick=()=>document.getElementById("v24picker").classList.remove("show");
+  document.getElementById("v24picker").onclick=e=>{if(e.target.id==="v24picker")e.currentTarget.classList.remove("show")};
+
+  window.renderHand=function(){
+    cards.innerHTML="";
+    for(let i=0;i<6;i++){
+      const k=hand[i],d=document.createElement("button");
+      d.className="card v24slot"+(i===handSel?" on":"")+(k?"":" empty");
+      d.innerHTML='<span class="slotNo">#'+(i+1)+'</span><span class="cardIcon">'+(k?roomIcon(k):"＋")+'</span><span><b>'+(k?R[k].n:"Choose card")+'</b><br><small>'+(k?"Click to change":"Select your actual in-game card")+'</small></span>';
+      d.onclick=()=>v24OpenPicker(i);cards.appendChild(d);
+    }
+  };
+
+  if(window.roll){roll.textContent="Clear all 6 cards";roll.onclick=()=>{pushUndo();hand=Array(6).fill(EMPTY);handSel=0;renderHand();draw();reward.innerHTML='<div class="notice info"><b>Live Hand cleared.</b><br>Choose the six cards shown in your current PoE 2 Temple hand.</div>'}}
+  if(window.addVaultCard){addVaultCard.textContent="💰 Set selected slot: Treasure Vault";addVaultCard.onclick=()=>{pushUndo();hand[handSel]="vault";renderHand();draw()}}
+
+  window.drawArrows=function(){
+    const svg=document.getElementById("arrowLayer"),wrap=document.getElementById("boardWrap");if(!svg||!wrap)return;
+    const wr=wrap.getBoundingClientRect(),tiles=[...board.children];
+    svg.setAttribute("width",wrap.offsetWidth);svg.setAttribute("height",wrap.offsetHeight);svg.setAttribute("viewBox","0 0 "+wrap.offsetWidth+" "+wrap.offsetHeight);
+    svg.innerHTML='<defs><marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#c7d0dd"/></marker><marker id="ahu" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#8fe28a"/></marker><marker id="ahp" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#73b7ff"/></marker></defs>';
+    const center=r=>({x:r.left-wr.left+r.width/2,y:r.top-wr.top+r.height/2,w:r.width,h:r.height});
+    const clip=(a,b,pad=5)=>{const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L;const sx=Math.min(a.w/2/Math.max(Math.abs(ux),.001),a.h/2/Math.max(Math.abs(uy),.001));const ex=Math.min(b.w/2/Math.max(Math.abs(ux),.001),b.h/2/Math.max(Math.abs(uy),.001));return{x1:a.x+ux*(sx+pad),y1:a.y+uy*(sx+pad),x2:b.x-ux*(ex+pad+3),y2:b.y-uy*(ex+pad+3)}};
+    connectionEdges().forEach((e,idx)=>{
+      const a=center(tiles[e.a].getBoundingClientRect()),b=center(tiles[e.b].getBoundingClientRect()),p=clip(a,b,e.type==="power"?2:0);
+      const path=document.createElementNS("http://www.w3.org/2000/svg","path"),dx=p.x2-p.x1,dy=p.y2-p.y1,L=Math.hypot(dx,dy)||1;
+      let d="M "+p.x1+" "+p.y1+" L "+p.x2+" "+p.y2;
+      if(e.type==="power"&&L>90){const bend=((idx%2)?1:-1)*Math.min(28,L*.12),mx=(p.x1+p.x2)/2-dy/L*bend,my=(p.y1+p.y2)/2+dx/L*bend;d="M "+p.x1+" "+p.y1+" Q "+mx+" "+my+" "+p.x2+" "+p.y2}
+      path.setAttribute("d",d);path.setAttribute("fill","none");path.setAttribute("class","templeEdge");
+      path.setAttribute("stroke",e.type==="upgrade"?"#8fe28a":e.type==="power"?"#73b7ff":"#c7d0dd");
+      path.setAttribute("stroke-width",(e.type==="upgrade"||e.type==="power")?"2.4":"1.4");
+      path.setAttribute("stroke-dasharray",e.type==="interaction"?"4 3":e.type==="power"?"3 4":"");
+      path.setAttribute("opacity",e.type==="path"?".48":".88");
+      path.setAttribute("marker-end",e.type==="upgrade"?"url(#ahu)":e.type==="power"?"url(#ahp)":"url(#ah)");
+      svg.appendChild(path);
+    });
+  };
+
+  const oldLegal=window.legal;
+  if(typeof oldLegal==="function")window.legal=function(i,k){if(mode.value==="live"&&!k)return false;return oldLegal(i,k)};
+  const oldClick=window.clickTile;
+  window.clickTile=function(i){
+    if(mode.value==="live"&&!hand[handSel]&&!B[i]){reward.innerHTML='<div class="notice no"><b>Choose a Live Card first.</b><br>Click one of the six Live Hand slots and select the card you actually have in game.</div>';v24OpenPicker(handSel);return}
+    return oldClick(i);
+  };
+
+  const liveBox=[...document.querySelectorAll(".box h2")].find(x=>x.textContent.includes("Live Hand"));
+  if(liveBox)liveBox.textContent="Live Hand — Your 6 In-Game Cards";
+  const liveMut=cards.parentElement.querySelector(".mut");if(liveMut)liveMut.textContent="No default cards. Click each slot and enter the cards currently shown in your PoE 2 Temple hand.";
+  renderHand();draw();document.title="PoE 2 Build Nexus · V24";
+})();
+</script>
