@@ -2607,3 +2607,31 @@ setTimeout(()=>{document.querySelectorAll('.v11pill').forEach(x=>x.textContent='
   renderHand();draw();document.title="PoE 2 Build Nexus · V24";
 })();
 </script>
+<style>
+/* V24.1 real Temple room icons */
+.roomIcon img,.cardIcon img,.v241-room-icon{width:28px;height:28px;object-fit:contain;vertical-align:middle;filter:drop-shadow(0 1px 2px #000)}
+.cardIcon img{width:32px;height:32px}
+</style>
+<script>
+(function(){
+  const base="https://cdn.poe2db.tw/image/Art/Textures/Interface/2D/2DArt/UIImages/InGame/Incursion2/RoomIcons/";
+  const iconFiles={
+    garrison:"IconGarrison",commander:"IconCommander",armoury:"IconArmoury",smithy:"IconSmithy",
+    gen:"IconGenerator",spy:"IconViperSpymaster",legion:"IconViperLegionBarracks",synth:"IconSynthflesh",
+    flesh:"IconFleshSurgeon",trans:"IconTranscendentBarracks",alchemy:"IconAlchemyLab",thaum:"IconThaumaturge",
+    golem:"IconGolemWorks",corrupt:"IconCorruption",sac:"IconSacrificialChamber",vault:"IconVault",
+    architect:"IconArchitect",royal:"IconAccessChamber"
+  };
+  const fallback={path:"🛤️",gen:"⚡",golem:"🗿",smithy:"🔨",armoury:"🛡️",alchemy:"⚗️",synth:"🧬",flesh:"🩺",trans:"⚔️",legion:"🐍",thaum:"🔮",corrupt:"🩸",sac:"🗡️",garrison:"🏰",commander:"🎖️",spy:"👁️",vault:"💰",architect:"📐",royal:"👑"};
+  window.roomIcon=function(k){
+    const file=iconFiles[k];
+    if(!file)return fallback[k]||"◈";
+    return '<img class="v241-room-icon" src="'+base+file+'.webp" alt="'+(R[k]?.n||k)+'" title="'+(R[k]?.n||k)+'" onerror="this.replaceWith(document.createTextNode(\\''+(fallback[k]||"◈")+'\\'))">';
+  };
+  // Refresh every UI surface that already renders roomIcon().
+  try{renderPalette()}catch(e){}
+  try{renderHand()}catch(e){}
+  try{draw()}catch(e){}
+  document.title="PoE 2 Build Nexus · V24.1";
+})();
+</script>
