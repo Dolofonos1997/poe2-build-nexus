@@ -1,0 +1,20 @@
+/* Original user-supplied artwork extracted from V24.6. */
+.room-art{display:inline-block;width:38px;height:38px;background-repeat:no-repeat;background-size:190px 152px;flex-shrink:0}
+.icon-spy{background-image:url('./icons/rooms-transparent.webp');background-position:0px 0px}
+.icon-garrison{background-image:url('./icons/rooms-transparent.webp');background-position:-38px 0px}
+.icon-commander{background-image:url('./icons/rooms-transparent.webp');background-position:-76px 0px}
+.icon-legion{background-image:url('./icons/rooms-transparent.webp');background-position:-114px 0px}
+.icon-flesh{background-image:url('./icons/rooms-transparent.webp');background-position:-152px 0px}
+.icon-trans{background-image:url('./icons/rooms-transparent.webp');background-position:0px -38px}
+.icon-smithy{background-image:url('./icons/rooms-transparent.webp');background-position:-38px -38px}
+.icon-armoury{background-image:url('./icons/rooms-transparent.webp');background-position:-76px -38px}
+.icon-synth{background-image:url('./icons/rooms-transparent.webp');background-position:-114px -38px}
+.icon-golem{background-image:url('./icons/rooms-transparent.webp');background-position:-152px -38px}
+.icon-alchemy{background-image:url('./icons/rooms-transparent.webp');background-position:0px -76px}
+.icon-thaum{background-image:url('./icons/rooms-transparent.webp');background-position:-38px -76px}
+.icon-corrupt{background-image:url('./icons/rooms-transparent.webp');background-position:-76px -76px}
+.icon-vault{background-image:url('./icons/rooms-transparent.webp');background-position:-114px -76px}
+.icon-gen{background-image:url('./icons/rooms-transparent.webp');background-position:0px -114px}
+.icon-sac{background-image:url('./icons/rooms-transparent.webp');background-position:-38px -114px}
+.icon-architect{background-image:url('./icons/bosses-transparent.webp');background-size:76px 38px;background-position:0 0}
+.icon-royal{background-image:url('./icons/bosses-transparent.webp');background-size:76px 38px;background-position:-38px 0}

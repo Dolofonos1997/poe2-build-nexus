@@ -1,0 +1,72 @@
+[
+  {
+    "id": "grenadier",
+    "cls": "Mercenary",
+    "asc": "Witchhunter",
+    "title": "Explosive Grenadier",
+    "skill": "Explosive Grenade",
+    "budget": "Starter",
+    "tags": ["Starter", "Mapping", "Grenades"],
+    "example": true
+  },
+  {
+    "id": "druid-primal",
+    "cls": "Druid",
+    "asc": "Shaman",
+    "title": "Primal Shapeshifter",
+    "skill": "Shapeshifting",
+    "budget": "Starter",
+    "tags": ["Druid", "Primal", "Talisman", "0.4.0"],
+    "example": true
+  },
+  {
+    "id": "minions",
+    "cls": "Witch",
+    "asc": "Infernalist",
+    "title": "Infernal Minion Army",
+    "skill": "Skeletal Arsonist",
+    "budget": "Medium",
+    "tags": ["Minions", "Bossing", "Endgame"],
+    "example": true
+  },
+  {
+    "id": "lightning",
+    "cls": "Ranger",
+    "asc": "Deadeye",
+    "title": "Lightning Arrow Deadeye",
+    "skill": "Lightning Arrow",
+    "budget": "High",
+    "tags": ["Fast", "Mapping", "Bow"],
+    "example": true
+  },
+  {
+    "id": "ice",
+    "cls": "Monk",
+    "asc": "Invoker",
+    "title": "Ice Strike Invoker",
+    "skill": "Ice Strike",
+    "budget": "Medium",
+    "tags": ["Melee", "Freeze", "Bossing"],
+    "example": true
+  },
+  {
+    "id": "slam",
+    "cls": "Warrior",
+    "asc": "Titan",
+    "title": "Titan Slam",
+    "skill": "Hammer of the Gods",
+    "budget": "Starter",
+    "tags": ["Tanky", "Slam", "Starter"],
+    "example": true
+  },
+  {
+    "id": "spark",
+    "cls": "Sorceress",
+    "asc": "Stormweaver",
+    "title": "Archmage Spark",
+    "skill": "Spark",
+    "budget": "High",
+    "tags": ["Caster", "Lightning", "Endgame"],
+    "example": true
+  }
+]
