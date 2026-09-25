@@ -165,7 +165,7 @@ const _v13OpenBuild=openBuild;openBuild=function(id){_v13OpenBuild(id);setTimeou
 </div>
 <button id=rebuildTarget>Rebuild to room target</button>
 <button id=load62>Load generic 62-room snake + bait</button><div class=mut>Use Photo-style Full Buff Temple for the layout modeled after your screenshot. That preset always locks the entrance at bottom-centre E9, fills both left and right outer wings, keeps a sparse inner bait diamond, and uses direct Golem → Smithy chains. The game still decides actual destabilisation targets.</div></div></div>
-<div class=box><h2>Live Hand — 6 Cards</h2><div class=body><div class=cards id=cards></div><button id=addVaultCard>💰 Add Treasure Vault Card</button><button id=roll>Generate example hand</button><div class=mut>In Live mode, choose one of the six cards, then legal candidate tiles are highlighted.</div></div></div>
+<div class=box><h2>Live Hand — 6 Cards</h2><div class=body><div class=cards id=cards></div><button id=addVaultCard>Add Treasure Vault Card</button><button id=roll>Generate example hand</button><div class=mut>In Live mode, choose one of the six cards, then legal candidate tiles are highlighted.</div></div></div>
 <div class=box><h2>Room Palette</h2><div class=body><input id=search placeholder="Search rooms…"><select id=tier><option>1</option><option>2</option><option selected>3</option><option>4</option></select><div class=rooms id=rooms></div></div></div>
 <div class=box><h2>V7 Goal Weights</h2><div class=body>
 <div class=weightRow><span>Infuser / Smithy</span><input id=wSmithy type=number min=0 max=10 value=10></div>
@@ -2243,7 +2243,7 @@ mode.onchange=()=>{renderHand();draw()};search.oninput=roomList;tier.onchange=()
   pushUndo();
   hand[handSel]="vault";
   renderHand();
-  reward.innerHTML='<div class="notice ok"><b>💰 Treasure Vault Room Card added.</b><br>The selected Live Card slot is now Treasure Vault.</div>';
+  reward.innerHTML='<div class="notice ok"><b>Treasure Vault Room Card added.</b><br>The selected Live Card slot is now Treasure Vault.</div>';
   update();
 };
 useMedal.onclick=()=>{if(medal.value==="quip"&&sel!=null&&B[sel])B[sel].t=Math.min(4,B[sel].t+1);if(medal.value==="juat"&&sel!=null&&B[sel])B[sel].protected=1;if(medal.value==="puh")roll.click();if(medal.value==="uro"){hand[handSel]=pick;renderHand()}update()};
@@ -2569,7 +2569,7 @@ setTimeout(()=>{document.querySelectorAll('.v11pill').forEach(x=>x.textContent='
   };
 
   if(window.roll){roll.textContent="Clear all 6 cards";roll.onclick=()=>{pushUndo();hand=Array(6).fill(EMPTY);handSel=0;renderHand();draw();reward.innerHTML='<div class="notice info"><b>Live Hand cleared.</b><br>Choose the six cards shown in your current PoE 2 Temple hand.</div>'}}
-  if(window.addVaultCard){addVaultCard.textContent="💰 Set selected slot: Treasure Vault";addVaultCard.onclick=()=>{pushUndo();hand[handSel]="vault";renderHand();draw()}}
+  if(window.addVaultCard){addVaultCard.textContent="Set selected slot: Treasure Vault";addVaultCard.onclick=()=>{pushUndo();hand[handSel]="vault";renderHand();draw()}}
 
   window.drawArrows=function(){
     const svg=document.getElementById("arrowLayer"),wrap=document.getElementById("boardWrap");if(!svg||!wrap)return;
@@ -2607,91 +2607,11 @@ setTimeout(()=>{document.querySelectorAll('.v11pill').forEach(x=>x.textContent='
   renderHand();draw();document.title="PoE 2 Build Nexus · V24";
 })();
 </script>
-<style>
-/* V24.1 real Temple room icons */
-.roomIcon img,.cardIcon img,.v241-room-icon{width:28px;height:28px;object-fit:contain;vertical-align:middle;filter:drop-shadow(0 1px 2px #000)}
-.cardIcon img{width:32px;height:32px}
-</style>
-<script>
-(function(){
-  const base="https://cdn.poe2db.tw/image/Art/Textures/Interface/2D/2DArt/UIImages/InGame/Incursion2/RoomIcons/";
-  const iconFiles={
-    garrison:"IconGarrison",commander:"IconCommander",armoury:"IconArmoury",smithy:"IconSmithy",
-    gen:"IconGenerator",spy:"IconViperSpymaster",legion:"IconViperLegionBarracks",synth:"IconSynthflesh",
-    flesh:"IconFleshSurgeon",trans:"IconTranscendentBarracks",alchemy:"IconAlchemyLab",thaum:"IconThaumaturge",
-    golem:"IconGolemWorks",corrupt:"IconCorruption",sac:"IconSacrificialChamber",vault:"IconVault",
-    architect:"IconArchitect",royal:"IconAccessChamber"
-  };
-  const fallback={path:"🛤️",gen:"⚡",golem:"🗿",smithy:"🔨",armoury:"🛡️",alchemy:"⚗️",synth:"🧬",flesh:"🩺",trans:"⚔️",legion:"🐍",thaum:"🔮",corrupt:"🩸",sac:"🗡️",garrison:"🏰",commander:"🎖️",spy:"👁️",vault:"💰",architect:"📐",royal:"👑"};
-  window.roomIcon=function(k){
-    const file=iconFiles[k];
-    if(!file)return fallback[k]||"◈";
-    return '<img class="v241-room-icon" src="'+base+file+'.webp" alt="'+(R[k]?.n||k)+'" title="'+(R[k]?.n||k)+'" onerror="this.replaceWith(document.createTextNode(\\''+(fallback[k]||"◈")+'\\'))">';
-  };
-  // Refresh every UI surface that already renders roomIcon().
-  try{renderPalette()}catch(e){}
-  try{renderHand()}catch(e){}
-  try{draw()}catch(e){}
-  document.title="PoE 2 Build Nexus · V24.1";
-})();
-</script>
-<style>
-/* V24.2 bundled Temple icons */
-.v242icon{width:30px;height:30px;vertical-align:middle;filter:drop-shadow(0 1px 2px #000)}
-.cardIcon .v242icon{width:34px;height:34px}
-</style>
-<script>
-(function(){
-  /* Self-contained SVG icon set: no CDN/hotlink dependency. */
-  const I={
-    path:["#64748b","M7 25 13 7h6l-5 18zm11 0 5-18h3l-2 18z"],
-    gen:["#eab308","M18 3 8 18h8l-2 11 10-16h-8z"],
-    golem:["#a78bfa","M8 9h16v15H8z M11 5h10v5H11z M11 14h3v3h-3zm7 0h3v3h-3z"],
-    smithy:["#f59e0b","M6 8h14v5h-5v14h-5V13H6zm14-3 6 6-3 3-6-6z"],
-    armoury:["#60a5fa","M16 3 26 7v8c0 7-4 11-10 14C10 26 6 22 6 15V7zm0 5v15c4-2 6-5 6-9V10z"],
-    alchemy:["#22d3ee","M12 4h8v3h-1v6l7 11c1 2 0 4-3 4H9c-3 0-4-2-3-4l7-11V7h-1zm1 15-3 5h12l-3-5z"],
-    synth:["#34d399","M8 5c8 0 8 22 16 22M24 5C16 5 16 27 8 27M10 10h12M10 22h12"],
-    flesh:["#fb7185","M16 28S5 21 5 12c0-7 8-9 11-3 3-6 11-4 11 3 0 9-11 16-11 16z"],
-    trans:["#f97316","M8 5l18 18-3 3L5 8zm16 0L6 23l3 3L27 8z"],
-    legion:["#84cc16","M7 22c4-12 14-16 20-13-8 2-10 7-7 10 2 2 5 0 7-2-1 8-12 12-20 5z"],
-    thaum:["#c084fc","M16 4l9 7-3 14H10L7 11zm0 5-4 4 2 7h4l2-7z"],
-    corrupt:["#ef4444","M16 3c2 6 8 10 8 17a8 8 0 1 1-16 0c0-6 6-11 8-17zm-2 13c-3 4-2 8 2 9-1-3 1-5 4-7-2 0-4-1-6-2z"],
-    sac:["#f43f5e","M20 4 9 21l-3 1 4 4 2-3L25 8zm-9 20 5 5"],
-    garrison:["#94a3b8","M5 27V11h4V6h5v5h4V6h5v5h4v16H5zm6-9h10v9H11z"],
-    commander:["#facc15","M16 3l4 8 9 1-7 6 2 9-8-4-8 4 2-9-7-6 9-1z"],
-    spy:["#38bdf8","M3 16s5-8 13-8 13 8 13 8-5 8-13 8S3 16 3 16zm13-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],
-    vault:["#fbbf24","M5 8h22v19H5zm4 4v11h14V12zm4 2h6v7h-6z"],
-    architect:["#2dd4bf","M5 26 16 4l11 22zm8-5h7l-4-8z"],
-    royal:["#fde047","M5 11l6 5 5-10 5 10 6-5-3 15H8z"],
-  };
-  function svg(k){
-    const a=I[k]||I.path;
-    const parts=a[1].split(" M");
-    const paths=parts.map((p,i)=>'<path d="'+(i?'M':'')+p+'" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>').join("");
-    return '<svg class="v242icon" viewBox="0 0 32 32" aria-label="'+(R[k]?.n||k)+'" role="img" style="color:'+a[0]+'"><circle cx="16" cy="16" r="14.5" fill="#0b1119" stroke="'+a[0]+'" stroke-width="1.5"/>'+paths+'</svg>';
-  }
-  window.roomIcon=svg;
-  try{renderPalette()}catch(e){}
-  try{renderHand()}catch(e){}
-  try{draw()}catch(e){}
-  document.title="PoE 2 Build Nexus · V24.2";
-})();
-</script>
-<style>/* V24.3 icon fix */.v243icon{width:30px;height:30px;display:inline-block;vertical-align:middle}.cardIcon .v243icon{width:34px;height:34px}</style>
-<script>
-(function(){
-const D={path:["#64748b","M8 26 13 6h6l-4 20 M19 26l5-20"],gen:["#eab308","M18 3 8 18h8l-2 11 10-16h-8z"],golem:["#a78bfa","M8 10h16v15H8z M11 5h10v5 M11 15h3 M18 15h3"],smithy:["#f59e0b","M6 8h14v5h-5v14h-5V13H6 M20 5l6 6-3 3-6-6"],armoury:["#60a5fa","M16 3 26 7v8c0 7-4 11-10 14C10 26 6 22 6 15V7z M16 8v15"],alchemy:["#22d3ee","M12 5h8 M14 6v7L7 24c-1 2 0 4 3 4h12c3 0 4-2 3-4l-7-11V6 M10 22h12"],synth:["#34d399","M8 5c8 0 8 22 16 22 M24 5C16 5 16 27 8 27 M10 10h12 M10 22h12"],flesh:["#fb7185","M16 28S5 21 5 12c0-7 8-9 11-3 3-6 11-4 11 3 0 9-11 16-11 16z"],trans:["#f97316","M7 6l19 19 M25 6 6 25"],legion:["#84cc16","M6 23c5-13 15-17 21-13-8 2-10 7-7 10 2 2 5 0 7-2-1 8-12-21 5z"],thaum:["#c084fc","M16 4l9 7-3 14H10L7 11z M16 9l-4 4 2 7h4l2-7z"],corrupt:["#ef4444","M16 3c2 6 8 10 8 17a8 8 0 1 1-16 0c0-6 6-11 8-17z"],sac:["#f43f5e","M20 4 9 21l-3 1 4 4 2-3L25 8z"],garrison:["#94a3b8","M5 27V11h4V6h5v5h4V6h5v5h4v16z M11 27v-9h10v9"],commander:["#facc15","M16 3l4 8 9 1-7 6 2 9-8-4-8 4 2-9-7-6 9-1z"],spy:["#38bdf8","M3 16s5-8 13-8 13 8 13 8-5 8-13 8S3 16 3 16z M16 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],vault:["#fbbf24","M5 8h22v19H5z M9 12h14v11H9z"],architect:["#2dd4bf","M5 26 16 4l11 22z"],royal:["#fde047","M5 11l6 5 5-10 5 10 6-5-3 15H8z"]};
-const S=k=>{const a=D[k]||D.path;return '<svg class="v243icon" viewBox="0 0 32 32" style="color:'+a[0]+'"><circle cx="16" cy="16" r="14.5" fill="#0b1119" stroke="currentColor" stroke-width="1.5"/><path d="'+a[1]+'" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
-function fix(){
- document.querySelectorAll(".cardIcon").forEach(el=>{const t=el.closest(".card")?.textContent||"";const k=Object.keys(R).find(x=>t.includes(R[x].n));if(k)el.innerHTML=S(k)});
- document.querySelectorAll("#palette button,#palette .room,.palette button").forEach(el=>{const t=el.textContent||"";const k=Object.keys(R).find(x=>t.includes(R[x].n));if(k){const q=el.querySelector(".roomIcon")||el.querySelector("span");if(q)q.innerHTML=S(k)}});
- document.querySelectorAll("#board .tile").forEach((el,i)=>{const v=B[i],k=v&&(v.k||v.key||v);if(k&&R[k]){const q=el.querySelector(".roomIcon,.ico,.icon");if(q)q.innerHTML=S(k)}});
-}
-const h=renderHand;renderHand=function(){h();fix()};
-const d=draw;draw=function(){d();fix()};
-try{const p=renderPalette;renderPalette=function(){p();fix()}}catch(e){}
-renderHand();draw();fix();document.title="PoE 2 Build Nexus · V24.3";
-})();
-</script>
+
+
+
 <!-- V24.4: source room icons replaced; no emoji fallback -->
 <script>document.title="PoE 2 Build Nexus · V24.4";</script>
+
+<!-- V24.5 cleanup: removed obsolete V24.1-V24.3 icon override blocks -->
+<script>document.title="PoE 2 Build Nexus · V24.5";</script>
