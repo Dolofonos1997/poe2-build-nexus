@@ -2677,3 +2677,19 @@ setTimeout(()=>{document.querySelectorAll('.v11pill').forEach(x=>x.textContent='
   document.title="PoE 2 Build Nexus · V24.2";
 })();
 </script>
+<style>/* V24.3 icon fix */.v243icon{width:30px;height:30px;display:inline-block;vertical-align:middle}.cardIcon .v243icon{width:34px;height:34px}</style>
+<script>
+(function(){
+const D={path:["#64748b","M8 26 13 6h6l-4 20 M19 26l5-20"],gen:["#eab308","M18 3 8 18h8l-2 11 10-16h-8z"],golem:["#a78bfa","M8 10h16v15H8z M11 5h10v5 M11 15h3 M18 15h3"],smithy:["#f59e0b","M6 8h14v5h-5v14h-5V13H6 M20 5l6 6-3 3-6-6"],armoury:["#60a5fa","M16 3 26 7v8c0 7-4 11-10 14C10 26 6 22 6 15V7z M16 8v15"],alchemy:["#22d3ee","M12 5h8 M14 6v7L7 24c-1 2 0 4 3 4h12c3 0 4-2 3-4l-7-11V6 M10 22h12"],synth:["#34d399","M8 5c8 0 8 22 16 22 M24 5C16 5 16 27 8 27 M10 10h12 M10 22h12"],flesh:["#fb7185","M16 28S5 21 5 12c0-7 8-9 11-3 3-6 11-4 11 3 0 9-11 16-11 16z"],trans:["#f97316","M7 6l19 19 M25 6 6 25"],legion:["#84cc16","M6 23c5-13 15-17 21-13-8 2-10 7-7 10 2 2 5 0 7-2-1 8-12-21 5z"],thaum:["#c084fc","M16 4l9 7-3 14H10L7 11z M16 9l-4 4 2 7h4l2-7z"],corrupt:["#ef4444","M16 3c2 6 8 10 8 17a8 8 0 1 1-16 0c0-6 6-11 8-17z"],sac:["#f43f5e","M20 4 9 21l-3 1 4 4 2-3L25 8z"],garrison:["#94a3b8","M5 27V11h4V6h5v5h4V6h5v5h4v16z M11 27v-9h10v9"],commander:["#facc15","M16 3l4 8 9 1-7 6 2 9-8-4-8 4 2-9-7-6 9-1z"],spy:["#38bdf8","M3 16s5-8 13-8 13 8 13 8-5 8-13 8S3 16 3 16z M16 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],vault:["#fbbf24","M5 8h22v19H5z M9 12h14v11H9z"],architect:["#2dd4bf","M5 26 16 4l11 22z"],royal:["#fde047","M5 11l6 5 5-10 5 10 6-5-3 15H8z"]};
+const S=k=>{const a=D[k]||D.path;return '<svg class="v243icon" viewBox="0 0 32 32" style="color:'+a[0]+'"><circle cx="16" cy="16" r="14.5" fill="#0b1119" stroke="currentColor" stroke-width="1.5"/><path d="'+a[1]+'" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
+function fix(){
+ document.querySelectorAll(".cardIcon").forEach(el=>{const t=el.closest(".card")?.textContent||"";const k=Object.keys(R).find(x=>t.includes(R[x].n));if(k)el.innerHTML=S(k)});
+ document.querySelectorAll("#palette button,#palette .room,.palette button").forEach(el=>{const t=el.textContent||"";const k=Object.keys(R).find(x=>t.includes(R[x].n));if(k){const q=el.querySelector(".roomIcon")||el.querySelector("span");if(q)q.innerHTML=S(k)}});
+ document.querySelectorAll("#board .tile").forEach((el,i)=>{const v=B[i],k=v&&(v.k||v.key||v);if(k&&R[k]){const q=el.querySelector(".roomIcon,.ico,.icon");if(q)q.innerHTML=S(k)}});
+}
+const h=renderHand;renderHand=function(){h();fix()};
+const d=draw;draw=function(){d();fix()};
+try{const p=renderPalette;renderPalette=function(){p();fix()}}catch(e){}
+renderHand();draw();fix();document.title="PoE 2 Build Nexus · V24.3";
+})();
+</script>
