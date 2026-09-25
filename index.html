@@ -343,25 +343,25 @@ function saveEditorBuildV11(n){let b=ACTIVE_BUILD;b.title=eTitle.value;b.cls=eCl
 const oldOpenIO=openIO;openIO=function(){modal('Import / Export Builds · V11',`<div class="mut">V11 remains compatible with V10 JSON builds. New V11 fields such as skillGroups are optional.</div><textarea id="ioText" class="ioArea">${esc(JSON.stringify(savedBuilds(),null,2))}</textarea><div class="editorActions"><button onclick="copyIO()">Copy JSON</button><button class="primary" onclick="importIO()">Import JSON</button><button onclick="downloadIO()">Download .json</button></div>`)};
 
 const R={
-path:{n:"Path",ico:"🛤️",t:["Path","Path","Path","Path"],path:1},
-gen:{n:"Generator",ico:"⚡",t:["Dynamo","Shrine of Empowerment","Solar Nexus","Infinite Horizon"],up:["thaum","sac"]},
-golem:{n:"Golem Works",ico:"🗿",t:["Workshop","Automaton Lab","Stone Legion","Precision of Science"],powerUpgrade:1,inter:["smithy"]},
-smithy:{n:"Smithy",ico:"🔨",t:["Bronzeworks","Chamber of Iron","Golden Forge","Immaculate Forge"],up:["golem"],powerUpgrade:1,reward:"Masterwork Forge / Infusers"},
-armoury:{n:"Armoury",ico:"🛡️",t:["Depot","Arsenal","Gallery","Royal Reserves"],up:["smithy","alchemy"]},
-alchemy:{n:"Alchemy Lab",ico:"⚗️",t:["Chamber of Souls","Core Machinarium","Grand Phylactory","Perfected Phylactory"],multiUp:{thaum:2},inter:["armoury"],device:3,reward:"Soul Core Infuser"},
-synth:{n:"Synthflesh Lab",ico:"🧬",t:["Prosthetic Research","Synthflesh Sanctum","Crucible of Transcendence","Supremacy of Function"],up:["flesh"],powerUpgrade:1,inter:["flesh","garrison"]},
-flesh:{n:"Flesh Surgeon",ico:"🩺",t:["Surgeon's Ward","Surgeon's Theatre","Surgeon's Symphony","Surgical Glory"],mirrorFrom:"synth",inter:["synth"]},
-trans:{n:"Transcendent Barracks",ico:"⚔️",t:["Steelflesh Quarters","Steelflesh Quarters","Collective Legion","Chamber of the Perfected"],powerUpgrade:1,inter:["synth","commander"]},
-legion:{n:"Legion Barracks",ico:"🐍",t:["Viper's Loyals","Viper's Loyals","Collective Legion","Chamber of the Perfected"],up:["armoury"],inter:["spy"]},
-thaum:{n:"Thaumaturge",ico:"🔮",t:["Thaumaturge's Laboratory","Thaumaturge's Cuttery","Thaumaturge's Cathedral","Thaumaturge's Culmination"],sacScale:1,inter:["gen","corrupt","sac"],device:3,reward:"Gem Corrupter"},
-corrupt:{n:"Corruption Chamber",ico:"🩸",t:["Crimson Hall","Catalyst of Corruption","Locus of Corruption","Rapture of Corruption"],up:["thaum","sac"],device:3,reward:"Corruption Altar"},
-sac:{n:"Sacrificial Chamber",ico:"🗡️",t:["Altar of Sacrifice","Hall of Offerings","Apex of Oblation","Empyrean of Blood"],special:"sacrifice",inter:["gen","thaum","corrupt"],device:3,reward:"Morphology Mechanism"},
-garrison:{n:"Garrison",ico:"🏰",t:["Guardhouse","Barracks","Hall of War","Warrior Assembly"],up:["commander","armoury"],convertSynth:"trans",convertSpy:"legion",inter:["commander","armoury","spy","synth"]},
-commander:{n:"Commander",ico:"🎖️",t:["Commander's Chamber","Commander's Chamber","Commander's Headquarters","Seat of Command"],commanderScale:1,inter:["garrison","trans"]},
-spy:{n:"Spymaster",ico:"👁️",t:["Spymaster's Study","Hall of Shadows","Omnipresent Panopticon","Espionage Core"],special:"assassination",inter:["garrison","legion"]},
-vault:{n:"Treasure Vault",ico:"💰",t:["Treasure Vault","Treasure Vault","Treasure Vault","Sealed Vault"],reward:"Vault reward",restricted:1,roomCard:1},
-architect:{n:"Architect's Chamber",ico:"📐",t:["Architect's Chamber","Architect's Chamber","Architect's Chamber","Architect's Chamber"],architect:1,reward:"Xipocado's Console / unlock Medallions"},
-royal:{n:"Royal Access Chamber",ico:"👑",t:["Royal Access Chamber","Royal Access Chamber","Royal Access Chamber","Royal Access Chamber"],restricted:1}
+path:{n:"Path",ico:"◈",t:["Path","Path","Path","Path"],path:1},
+gen:{n:"Generator",ico:"ϟ",t:["Dynamo","Shrine of Empowerment","Solar Nexus","Infinite Horizon"],up:["thaum","sac"]},
+golem:{n:"Golem Works",ico:"⬡",t:["Workshop","Automaton Lab","Stone Legion","Precision of Science"],powerUpgrade:1,inter:["smithy"]},
+smithy:{n:"Smithy",ico:"⚒",t:["Bronzeworks","Chamber of Iron","Golden Forge","Immaculate Forge"],up:["golem"],powerUpgrade:1,reward:"Masterwork Forge / Infusers"},
+armoury:{n:"Armoury",ico:"⬢",t:["Depot","Arsenal","Gallery","Royal Reserves"],up:["smithy","alchemy"]},
+alchemy:{n:"Alchemy Lab",ico:"△",t:["Chamber of Souls","Core Machinarium","Grand Phylactory","Perfected Phylactory"],multiUp:{thaum:2},inter:["armoury"],device:3,reward:"Soul Core Infuser"},
+synth:{n:"Synthflesh Lab",ico:"⧖",t:["Prosthetic Research","Synthflesh Sanctum","Crucible of Transcendence","Supremacy of Function"],up:["flesh"],powerUpgrade:1,inter:["flesh","garrison"]},
+flesh:{n:"Flesh Surgeon",ico:"♥",t:["Surgeon's Ward","Surgeon's Theatre","Surgeon's Symphony","Surgical Glory"],mirrorFrom:"synth",inter:["synth"]},
+trans:{n:"Transcendent Barracks",ico:"⚔",t:["Steelflesh Quarters","Steelflesh Quarters","Collective Legion","Chamber of the Perfected"],powerUpgrade:1,inter:["synth","commander"]},
+legion:{n:"Legion Barracks",ico:"ϟϟ",t:["Viper's Loyals","Viper's Loyals","Collective Legion","Chamber of the Perfected"],up:["armoury"],inter:["spy"]},
+thaum:{n:"Thaumaturge",ico:"✧",t:["Thaumaturge's Laboratory","Thaumaturge's Cuttery","Thaumaturge's Cathedral","Thaumaturge's Culmination"],sacScale:1,inter:["gen","corrupt","sac"],device:3,reward:"Gem Corrupter"},
+corrupt:{n:"Corruption Chamber",ico:"◆",t:["Crimson Hall","Catalyst of Corruption","Locus of Corruption","Rapture of Corruption"],up:["thaum","sac"],device:3,reward:"Corruption Altar"},
+sac:{n:"Sacrificial Chamber",ico:"†",t:["Altar of Sacrifice","Hall of Offerings","Apex of Oblation","Empyrean of Blood"],special:"sacrifice",inter:["gen","thaum","corrupt"],device:3,reward:"Morphology Mechanism"},
+garrison:{n:"Garrison",ico:"▥",t:["Guardhouse","Barracks","Hall of War","Warrior Assembly"],up:["commander","armoury"],convertSynth:"trans",convertSpy:"legion",inter:["commander","armoury","spy","synth"]},
+commander:{n:"Commander",ico:"★",t:["Commander's Chamber","Commander's Chamber","Commander's Headquarters","Seat of Command"],commanderScale:1,inter:["garrison","trans"]},
+spy:{n:"Spymaster",ico:"◉",t:["Spymaster's Study","Hall of Shadows","Omnipresent Panopticon","Espionage Core"],special:"assassination",inter:["garrison","legion"]},
+vault:{n:"Treasure Vault",ico:"▣",t:["Treasure Vault","Treasure Vault","Treasure Vault","Sealed Vault"],reward:"Vault reward",restricted:1,roomCard:1},
+architect:{n:"Architect's Chamber",ico:"△",t:["Architect's Chamber","Architect's Chamber","Architect's Chamber","Architect's Chamber"],architect:1,reward:"Xipocado's Console / unlock Medallions"},
+royal:{n:"Royal Access Chamber",ico:"♛",t:["Royal Access Chamber","Royal Access Chamber","Royal Access Chamber","Royal Access Chamber"],restricted:1}
 }
 let architectDefeated=false;let B=Array(81).fill(null),pick="path",sel=null,hand=["path","path","gen","golem","smithy","sac"],handSel=0,suggestions=[];
 
@@ -2693,3 +2693,5 @@ try{const p=renderPalette;renderPalette=function(){p();fix()}}catch(e){}
 renderHand();draw();fix();document.title="PoE 2 Build Nexus · V24.3";
 })();
 </script>
+<!-- V24.4: source room icons replaced; no emoji fallback -->
+<script>document.title="PoE 2 Build Nexus · V24.4";</script>
