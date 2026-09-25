@@ -1,0 +1,186 @@
+{
+  "path": {
+    "n": "Path",
+    "t": ["Path", "Path", "Path", "Path"],
+    "path": 1
+  },
+  "gen": {
+    "n": "Generator",
+    "t": ["Dynamo", "Shrine of Empowerment", "Solar Nexus", "Infinite Horizon"],
+    "up": ["thaum", "sac"]
+  },
+  "golem": {
+    "n": "Golem Works",
+    "t": ["Workshop", "Automaton Lab", "Stone Legion", "Precision of Science"],
+    "powerUpgrade": 1,
+    "inter": ["smithy"]
+  },
+  "smithy": {
+    "n": "Smithy",
+    "t": ["Bronzeworks", "Chamber of Iron", "Golden Forge", "Immaculate Forge"],
+    "up": ["golem"],
+    "powerUpgrade": 1,
+    "reward": "Masterwork Forge / Infusers"
+  },
+  "armoury": {
+    "n": "Armoury",
+    "t": ["Depot", "Arsenal", "Gallery", "Royal Reserves"],
+    "up": ["smithy", "alchemy"]
+  },
+  "alchemy": {
+    "n": "Alchemy Lab",
+    "t": [
+      "Chamber of Souls",
+      "Core Machinarium",
+      "Grand Phylactory",
+      "Perfected Phylactory"
+    ],
+    "multiUp": {
+      "thaum": 2
+    },
+    "inter": ["armoury"],
+    "device": 3,
+    "reward": "Soul Core Infuser"
+  },
+  "synth": {
+    "n": "Synthflesh Lab",
+    "t": [
+      "Prosthetic Research",
+      "Synthflesh Sanctum",
+      "Crucible of Transcendence",
+      "Supremacy of Function"
+    ],
+    "up": ["flesh"],
+    "powerUpgrade": 1,
+    "inter": ["flesh", "garrison"]
+  },
+  "flesh": {
+    "n": "Flesh Surgeon",
+    "t": [
+      "Surgeon's Ward",
+      "Surgeon's Theatre",
+      "Surgeon's Symphony",
+      "Surgical Glory"
+    ],
+    "mirrorFrom": "synth",
+    "inter": ["synth"]
+  },
+  "trans": {
+    "n": "Transcendent Barracks",
+    "t": [
+      "Steelflesh Quarters",
+      "Steelflesh Quarters",
+      "Collective Legion",
+      "Chamber of the Perfected"
+    ],
+    "powerUpgrade": 1,
+    "inter": ["synth", "commander"]
+  },
+  "legion": {
+    "n": "Legion Barracks",
+    "t": [
+      "Viper's Loyals",
+      "Viper's Loyals",
+      "Collective Legion",
+      "Chamber of the Perfected"
+    ],
+    "up": ["armoury"],
+    "inter": ["spy"]
+  },
+  "thaum": {
+    "n": "Thaumaturge",
+    "t": [
+      "Thaumaturge's Laboratory",
+      "Thaumaturge's Cuttery",
+      "Thaumaturge's Cathedral",
+      "Thaumaturge's Culmination"
+    ],
+    "sacScale": 1,
+    "inter": ["gen", "corrupt", "sac"],
+    "device": 3,
+    "reward": "Gem Corrupter"
+  },
+  "corrupt": {
+    "n": "Corruption Chamber",
+    "t": [
+      "Crimson Hall",
+      "Catalyst of Corruption",
+      "Locus of Corruption",
+      "Rapture of Corruption"
+    ],
+    "up": ["thaum", "sac"],
+    "device": 3,
+    "reward": "Corruption Altar"
+  },
+  "sac": {
+    "n": "Sacrificial Chamber",
+    "t": [
+      "Altar of Sacrifice",
+      "Hall of Offerings",
+      "Apex of Oblation",
+      "Empyrean of Blood"
+    ],
+    "special": "sacrifice",
+    "inter": ["gen", "thaum", "corrupt"],
+    "device": 3,
+    "reward": "Morphology Mechanism"
+  },
+  "garrison": {
+    "n": "Garrison",
+    "t": ["Guardhouse", "Barracks", "Hall of War", "Warrior Assembly"],
+    "up": ["commander", "armoury"],
+    "convertSynth": "trans",
+    "convertSpy": "legion",
+    "inter": ["commander", "armoury", "spy", "synth"]
+  },
+  "commander": {
+    "n": "Commander",
+    "t": [
+      "Commander's Chamber",
+      "Commander's Chamber",
+      "Commander's Headquarters",
+      "Seat of Command"
+    ],
+    "commanderScale": 1,
+    "inter": ["garrison", "trans"]
+  },
+  "spy": {
+    "n": "Spymaster",
+    "t": [
+      "Spymaster's Study",
+      "Hall of Shadows",
+      "Omnipresent Panopticon",
+      "Espionage Core"
+    ],
+    "special": "assassination",
+    "inter": ["garrison", "legion"]
+  },
+  "vault": {
+    "n": "Treasure Vault",
+    "t": ["Treasure Vault", "Treasure Vault", "Treasure Vault", "Sealed Vault"],
+    "reward": "Vault reward",
+    "restricted": 1,
+    "roomCard": 1
+  },
+  "architect": {
+    "n": "Architect's Chamber",
+    "t": [
+      "Architect's Chamber",
+      "Architect's Chamber",
+      "Architect's Chamber",
+      "Architect's Chamber"
+    ],
+    "architect": 1,
+    "reward": "Xipocado's Console / unlock Medallions"
+  },
+  "royal": {
+    "n": "Royal Access Chamber",
+    "t": [
+      "Royal Access Chamber",
+      "Royal Access Chamber",
+      "Royal Access Chamber",
+      "Royal Access Chamber"
+    ],
+    "restricted": 1
+  }
+}

@@ -1,8 +1,15 @@
-# PoE 2 Build Nexus V10
+# PoE 2 Build Nexus · Atlas V2
+
+Atlas is a React/TypeScript development preview under `v2/`. Run `npm ci` and `npm run dev`; run `npm run check` and `npx playwright test` for validation. See [ATLAS_V2.md](ATLAS_V2.md) for implemented features, Supabase setup, deployment details and remaining work.
+
+The build retains the legacy V24.6 page at the site root and serves Atlas at `/v2/`.
+
+## Legacy release history — V10 onward
 
 V10 expands the V9 build hub while preserving the full Atziri Temple V8.8 planner.
 
 ## V10 additions
+
 - Create and edit custom PoE 2 builds
 - Browser-local saved build library
 - Editable class, ascendancy, main skill, budget and estimated cost
@@ -15,12 +22,14 @@ V10 expands the V9 build hub while preserving the full Atziri Temple V8.8 planne
 - Responsive editor and mobile layouts
 
 ## Preserved
+
 - All V9 build-browser features
 - Full Atziri Temple V8.8 planner and update log
 
 Open `index.html` in a modern browser. Saved builds use browser localStorage.
 
 ## V11 Build Nexus
+
 - Structured class/ascendancy/main-skill selectors
 - Skill/support group data
 - Expanded 24-node passive planner prototype
@@ -32,8 +41,8 @@ Open `index.html` in a modern browser. Saved builds use browser localStorage.
 
 Note: V11 calculations and data lists are planner prototypes, not authoritative PoE 2/PoB2 calculations. They are structured so real game data can replace them in later versions.
 
-
 ## V12 Build Nexus
+
 - Sample structured PoE 2 item database and item-library picker
 - Rarity-aware item cards and richer gear model
 - Five-stage build progression model
@@ -44,8 +53,8 @@ Note: V11 calculations and data lists are planner prototypes, not authoritative 
 
 V12 remains an offline prototype. Sample game data/prices are illustrative, not live economy data.
 
-
 ## V13 Build Nexus
+
 - PoB2 import attempt with source preservation and local metadata extraction
 - PoB2 bridge JSON export for future full round-trip support
 - Deeper derived combat model (damage/crit/spirit/DPS index)
@@ -57,6 +66,7 @@ V12 remains an offline prototype. Sample game data/prices are illustrative, not 
 Important: V13 does not claim exact Path of Building 2 calculation parity. Complex PoB2 compressed payloads remain source-preserved for future parser upgrades.
 
 ## V14 Build Nexus
+
 - Structured replaceable PoE 2 game-data layer
 - Searchable item-base, skill, and modifier catalogs
 - Passive planner expanded to 60 interactive nodes
@@ -65,6 +75,7 @@ Important: V13 does not claim exact Path of Building 2 calculation parity. Compl
 - Offline bundled catalog is intentionally compact; it is not presented as the complete live PoE 2 database
 
 ## V15 Build Studio
+
 - Visual skill/support gem editor
 - Full-screen passive-tree mode
 - Advanced item workshop with base, rarity, quality, mods and estimate preview
@@ -75,12 +86,12 @@ Important: V13 does not claim exact Path of Building 2 calculation parity. Compl
 
 Live economy is intentionally not called directly from the static browser build. Deploy a backend/proxy with HTTP caching/ETag support before enabling the mapped poe.ninja economy endpoints.
 
-
 ## V16
+
 Connected Build Lab: deployable backend contract, cache-aware PoE 2 economy adapter, price-history model, trade-query builder, and deeper PoB2 inspector. Live prices are never fabricated; the standalone planner remains offline-compatible. See `V16_BACKEND.md`.
 
-
 ## V16.1 — Path of Exile 2 Druid + Upcoming Duelist
+
 - Added Druid to class filters and build editor.
 - Added official Druid ascendancies: Oracle and Shaman (PoE 2 0.4.0).
 - Added Druid-ready Primal / shapeshifting / Talisman skill categories.
@@ -89,8 +100,8 @@ Connected Build Lab: deployable backend contract, cache-aware PoE 2 economy adap
 - Duelist unreleased ascendancies and skills remain explicit placeholders rather than invented game data.
 - Existing Temple Planner and V16 systems are preserved.
 
-
 ## V17 Advanced Planner
+
 - Passive checkpoints and weapon-set planning state
 - Defense inspector and resistance audit
 - Saved-build comparison
@@ -98,6 +109,7 @@ Connected Build Lab: deployable backend contract, cache-aware PoE 2 economy adap
 - Druid Human/Primal vs Talisman/shapeshift setup model
 
 ## V19 Community Studio
+
 - Offline-first creator profile
 - Publish/update with stable build slugs
 - Fork builds into My Saved Builds
@@ -105,7 +117,6 @@ Connected Build Lab: deployable backend contract, cache-aware PoE 2 economy adap
 - Patch-aware build version/changelog history
 - Community backend/API contract for real accounts and public persistence
 
-
 ## V19 Upgrade Intelligence
-See `V19_UPGRADE_INTELLIGENCE.md` for the new upgrade assistant, weakness scanner, whole-build constraints, build value audit, trade handoff and interactive progression model.
 
+See `V19_UPGRADE_INTELLIGENCE.md` for the new upgrade assistant, weakness scanner, whole-build constraints, build value audit, trade handoff and interactive progression model.
