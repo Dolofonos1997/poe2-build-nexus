@@ -1,0 +1,3 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PoE 2 Build Nexus</title></head><body style="margin:0;background:#080b10;color:#edf2f8;font-family:system-ui"><div id="loading" style="padding:32px">Loading PoE 2 Build Nexus…</div><script>
+(async()=>{try{const parts=["00","01","02","03","04","05","06","07","08"];const texts=await Promise.all(parts.map(n=>fetch('./site/part-'+n+'.txt?v=8.10').then(r=>{if(!r.ok)throw new Error('part '+n);return r.text()})));document.open();document.write(texts.join(''));document.close()}catch(e){document.getElementById('loading').innerHTML='<h2>Could not load planner</h2><p>'+e.message+'</p>'}})();
+</script></body></html>
