@@ -37,6 +37,7 @@ jobs:
       - run: deno check supabase/functions/temple-advisor/index.ts
       - run: node scripts/sync-edge-engine.mjs && git diff --exit-code -- supabase/functions/_shared/temple.ts
       - run: node scripts/economy.mjs
+      - run: node scripts/items.mjs
       - run: npm run check
         env:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}

@@ -1666,3 +1666,243 @@ html[data-reduced-motion="true"] *:after {
   max-height: 420px;
   overflow: auto;
 }
+.official-tree-panel {
+  padding: 22px;
+}
+.tree-controls,
+.tree-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.tree-controls .field {
+  flex: 1;
+  min-width: 130px;
+}
+.tree-controls input {
+  max-width: 110px;
+}
+.tree-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 270px;
+  gap: 18px;
+}
+.tree-toolbar {
+  margin-bottom: 12px;
+}
+.official-tree-canvas {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #62523b;
+  background: #100f0d;
+  border-radius: 8px;
+}
+.official-tree-canvas canvas {
+  display: block;
+  cursor: grab;
+}
+.official-tree-canvas canvas:active {
+  cursor: grabbing;
+}
+.tree-inspector {
+  min-width: 0;
+}
+.passive-results {
+  max-height: 255px;
+  overflow: auto;
+  display: grid;
+  gap: 5px;
+}
+.passive-results button {
+  display: block;
+  text-align: left;
+  padding: 9px;
+}
+.passive-results small {
+  display: block;
+  color: var(--muted);
+}
+.passive-detail {
+  border-top: 1px solid #62523b;
+  margin-top: 18px;
+  padding-top: 18px;
+}
+.passive-detail p {
+  white-space: pre-line;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.passive-detail button {
+  white-space: normal;
+}
+.equipment-workspace {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.equipment-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.equipment-slot {
+  min-height: 135px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 6px;
+  gap: 9px;
+  background: radial-gradient(ellipse, #23271e, #101710);
+  border-color: #484536;
+}
+.equipment-slot span {
+  color: #b6a478;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 9px;
+}
+.equipment-slot strong {
+  font-size: 11px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.equipment-slot svg {
+  width: 28px;
+  height: 40px;
+  opacity: 0.3;
+}
+.equipment-slot img {
+  height: 56px;
+  max-width: 65px;
+  object-fit: contain;
+}
+.equipment-slot.chosen {
+  outline: 2px solid #c5ab70;
+  background: #2d3020;
+}
+.equipment-slot.filled {
+  border-color: #88704b;
+}
+.item-card {
+  background: linear-gradient(#21190f, #0e100e 140px);
+  text-align: center;
+  border: 1px solid #75532e;
+  border-radius: 6px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.item-card header {
+  border-bottom: 1px solid #5c482d;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+}
+.item-card h3 {
+  color: #c38343;
+  font-family: Georgia, serif;
+  font-size: 23px;
+}
+.item-card header p {
+  color: #be976e;
+  margin: 5px 0 0;
+}
+.item-card img {
+  max-height: 130px;
+  max-width: 140px;
+  object-fit: contain;
+  margin: 10px auto;
+}
+.item-card p {
+  white-space: pre-line;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.item-properties {
+  color: #a9a9a2;
+}
+.item-mods {
+  color: #a3a4dd;
+}
+.rarity-rare h3 {
+  color: #ece28a;
+}
+.rarity-magic h3 {
+  color: #a3a4dd;
+}
+.equipment-workspace details {
+  margin: 15px 0;
+}
+.equipment-workspace summary {
+  cursor: pointer;
+  color: var(--gold);
+  margin-bottom: 15px;
+}
+.item-search-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  max-height: 390px;
+  overflow: auto;
+}
+.item-search-results button {
+  text-align: left;
+  justify-content: flex-start;
+  padding: 10px;
+  min-width: 0;
+}
+.item-search-results img {
+  width: 36px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.item-search-results strong {
+  display: block;
+  color: #d3a56a;
+  font-size: 11px;
+}
+.item-search-results small {
+  display: block;
+  font-size: 10px;
+  color: #99a08e;
+}
+.candidate-item {
+  margin-top: 20px;
+}
+@media (max-width: 1000px) {
+  .tree-workspace {
+    grid-template-columns: 1fr;
+  }
+  .tree-inspector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .tree-inspector > .field,
+  .tree-inspector > .hint {
+    grid-column: 1/-1;
+  }
+  .equipment-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .official-tree-panel {
+    padding: 12px;
+  }
+  .tree-inspector {
+    display: block;
+  }
+  .tree-controls strong {
+    font-size: 12px;
+  }
+  .item-search-results {
+    grid-template-columns: 1fr;
+  }
+  .equipment-slots {
+    gap: 7px;
+  }
+  .equipment-slot {
+    min-height: 120px;
+  }
+}
