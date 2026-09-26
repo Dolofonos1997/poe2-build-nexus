@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LiveEconomy } from "../components/LiveEconomy";
 import { Download, Plus, Trash2 } from "lucide-react";
 import { PageTitle, Panel, Metric, Empty } from "../components/UI";
 import { useLocal, download } from "../lib/storage";
@@ -36,6 +37,7 @@ export default function Economy() {
           Export ledger
         </button>
       </PageTitle>
+      <LiveEconomy />
       <div className="metrics">
         <Metric label="COMPLETED RUNS" value={runs.length} />
         <Metric

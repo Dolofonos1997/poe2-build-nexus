@@ -7,6 +7,8 @@ on:
       - v2
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
 
 permissions:
   contents: read
@@ -29,6 +31,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno check supabase/functions/temple-advisor/index.ts
+      - run: node scripts/sync-edge-engine.mjs && git diff --exit-code -- supabase/functions/_shared/temple.ts
+      - run: node scripts/economy.mjs
       - run: npm run check
         env:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}

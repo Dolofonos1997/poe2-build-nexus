@@ -1273,6 +1273,9 @@ td small {
   }
 }
 @media (max-width: 1400px) {
+  .palette {
+    position: static;
+  }
   .temple-layout {
     grid-template-columns: 185px minmax(350px, 1fr);
   }
@@ -1658,4 +1661,8 @@ html[data-reduced-motion="true"] *:before,
 html[data-reduced-motion="true"] *:after {
   transition: none !important;
   animation: none !important;
+}
+.market-table {
+  max-height: 420px;
+  overflow: auto;
 }

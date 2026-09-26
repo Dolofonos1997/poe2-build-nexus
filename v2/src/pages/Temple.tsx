@@ -14,8 +14,12 @@ import {
   Compass,
 } from "lucide-react";
 import { useTemple } from "../store/temple";
+import { TempleActions } from "../components/TempleActions";
+import { TempleAdvisor } from "../components/TempleAdvisor";
+import { conversionLabel } from "../engine/advanced";
 import {
   rooms,
+  convertedBoard,
   roomKeys,
   coordinate,
   placementError,
@@ -312,7 +316,7 @@ export default function Temple() {
                     />
                   ))}
                 </svg>
-                {board.map((c, i) => (
+                {convertedBoard(board).map((c, i) => (
                   <button
                     key={i}
                     aria-label={`${coordinate(i)} ${c ? rooms[c.k].n : "empty"}`}
@@ -497,6 +501,35 @@ export default function Temple() {
                   </div>
                 </div>
                 <p>{rooms[cell.k].t[(tier?.tier || 1) - 1]}</p>
+                {conversionLabel(board, selected) && (
+                  <p className="positive">
+                    Converts to {conversionLabel(board, selected)}. Original
+                    card retained for reversible planning.
+                  </p>
+                )}
+                <div className="actions">
+                  <button
+                    disabled={selected === 76 || cell.locked || replay !== null}
+                    onClick={() => changeCell({ protected: !cell.protected })}
+                  >
+                    {cell.protected
+                      ? "Remove medallion protection"
+                      : "Protect with medallion"}
+                  </button>
+                  {["alchemy", "thaum", "corrupt", "sac"].includes(cell.k) &&
+                    (tier?.tier || 1) >= 3 && (
+                      <button
+                        disabled={cell.locked || replay !== null}
+                        onClick={() =>
+                          changeCell({ deviceUsed: !cell.deviceUsed })
+                        }
+                      >
+                        {cell.deviceUsed
+                          ? "Undo device use"
+                          : "Mark device used"}
+                      </button>
+                    )}
+                </div>
                 <label className="field">
                   Base tier
                   <select
@@ -592,6 +625,10 @@ export default function Temple() {
             )}
           </Panel>
           <Panel title="Planning rules">
+            <p className="hint">
+              Power requirements and tier upgrades are evaluated separately.
+              Conversions retain the original card for reversibility.
+            </p>
             <label className="check">
               <input
                 type="checkbox"
@@ -611,8 +648,9 @@ export default function Temple() {
               Architect defeated
             </label>
             <p className="hint">
-              V24.6 rules, migrated for planning. The full legacy planner
-              remains available for advanced mechanics.
+              Advanced planning includes conversions, sacrifice, assassination,
+              tier dependencies and explicit exit scenarios. Random loss counts
+              are scenario inputs, not measured game probabilities.
             </p>
             <button
               onClick={() => {
@@ -626,6 +664,20 @@ export default function Temple() {
               New temple
             </button>
           </Panel>
+          <TempleActions
+            board={board}
+            selected={selected}
+            disabled={replay !== null}
+            commit={(board) => s.commit({ board })}
+            report={setMessage}
+          />
+          <TempleAdvisor
+            board={board}
+            hand={s.hand}
+            goal={s.goal}
+            architectDefeated={s.architectDefeated}
+            preventLoops={s.preventLoops}
+          />
         </aside>
       </div>
       <div className="toast" role="status">

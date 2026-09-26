@@ -46,15 +46,16 @@ References: [Supabase client](https://supabase.com/docs/reference/javascript/ini
 
 `scripts/extract-legacy.mjs` extracts the original room data, example builds, and embedded icon assets from V24.6. It deliberately removes the example cards' unverified DPS/EHP/prices. Original icon source files remain bundled; background-removal derivatives are used for transparent presentation. Re-running extraction restores the original sprite CSS, so retain the reviewed transparent mapping when regenerating data.
 
-The migrated engine implements the supported rules named above; it does **not** yet reproduce every advanced legacy feature. In particular, special sacrifice/assassination actions, conversion chains, destabilization simulation, automatic Flesh Surgeon tier mirroring, and advanced templates remain in the legacy planner. The app labels this boundary.
+Advanced Temple planning now includes explicit sacrifice/assassination recipients, reversible conversion chains, Flesh Surgeon tier dependencies, medallion protection, device-use tracking, seeded exit scenarios, and starter templates. Normal upgrades cap at T3 while recorded T4 is preserved. See [mechanics and deployment details](BACKEND_SETUP.md) for the exact rules and simulation boundaries.
 
 ## Remaining roadmap / external requirements
 
 - Provision and validate the Supabase deployment, SMTP and abuse/rate-limit controls; add account recovery and deletion UX before broad public account rollout.
 - Apply class-specific tree overrides and enforce allocation/class-start/point constraints. The current official-tree view is a sourced allocation notebook, not a fully validated character tree.
-- Verify the complete current Temple rule set and migrate the remaining advanced legacy mechanics with tests.
-- Connect a cache-aware, licensed economy source through a backend; no live prices, Divine/hour predictions, or loot probabilities are fabricated in this release.
-- Hosted AI recommendations, current game-data ingestion, automatic patch updates, and a fuller content-management console.
+- Exact undocumented Temple RNG is not modeled; the exit simulator accepts explicit scenario loss counts and reports disconnections.
+- Market snapshots now use the supported poe.ninja exchange API through an hourly GitHub Actions collector, with real league/unit/timestamps, ETags, stale labels and failure fallback. No loot probabilities or Divine/hour predictions are fabricated.
+- Hosted AI code, authentication, database quotas, private advice history, token usage records, and deployment steps are ready in [BACKEND_SETUP.md](BACKEND_SETUP.md). The owner still needs to provision Supabase and set server-only model credentials before live AI calls can be verified.
+- Current game-data ingestion, automatic patch updates, and a fuller content-management console.
 - Native/custom pinch gestures, richer animations, optional audio, and push notifications.
 
 The preview must not be described as the full V2 platform being finished. Release reporting should distinguish commit, successful deployment, and direct verification of the live `/v2/` page.
