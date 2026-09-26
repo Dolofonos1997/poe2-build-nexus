@@ -7,29 +7,25 @@ test("reviewed workspace backup restores the board and rejects malformed files",
     version: 2,
     data: { "atlas-temple-v2": { state: { board: [] } } },
   };
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "bad.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(bad)),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "bad.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(bad)),
+  });
   await expect(page.getByRole("status")).toContainText("81 cells");
   const board = Array(81).fill(null);
   board[67] = { k: "gen", t: 2 };
   board[76] = { k: "path", t: 1, locked: true };
-  await page
-    .locator("input[type=file]")
-    .setInputFiles({
-      name: "valid.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(
-        JSON.stringify({
-          version: 2,
-          data: { "atlas-temple-v2": { state: { board }, version: 0 } },
-        }),
-      ),
-    });
+  await page.locator("input[type=file]").setInputFiles({
+    name: "valid.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(
+      JSON.stringify({
+        version: 2,
+        data: { "atlas-temple-v2": { state: { board }, version: 0 } },
+      }),
+    ),
+  });
   await page.getByRole("button", { name: "Restore reviewed backup" }).click();
   await page.waitForLoadState("domcontentloaded");
   await page.goto("/#/temple");
@@ -76,6 +72,7 @@ test("build editor persists equipment and skills", async ({ page }) => {
   await page.getByRole("button", { name: "Create build", exact: true }).click();
   await page.getByLabel("Title", { exact: true }).fill("My tested build");
   await page.getByRole("button", { name: "Equipment", exact: true }).click();
+  await page.getByText("Edit item or paste from game", { exact: true }).click();
   await page
     .getByLabel("Item name", { exact: true })
     .first()
@@ -93,6 +90,7 @@ test("build editor persists equipment and skills", async ({ page }) => {
   await page.getByLabel("Search builds").fill("My tested build");
   await page.getByRole("button", { name: "Open build", exact: false }).click();
   await page.getByRole("button", { name: "Equipment", exact: true }).click();
+  await page.getByText("Edit item or paste from game", { exact: true }).click();
   await expect(
     page.getByLabel("Item name", { exact: true }).first(),
   ).toHaveValue("Test weapon");

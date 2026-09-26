@@ -1,5 +1,16 @@
 import examples from "../data/builds.json";
-export type Gear = { slot: string; name: string; mods: string; price: number };
+export type Gear = {
+  slot: string;
+  name: string;
+  mods: string;
+  price: number;
+  base?: string;
+  rarity?: string;
+  icon?: string;
+  properties?: string;
+  itemClass?: string;
+  raw?: string;
+};
 export type PassiveNode = {
   id: string;
   name: string;
@@ -7,6 +18,11 @@ export type PassiveNode = {
   y: number;
   links: string[];
   description: string;
+  icon?: string;
+  kind?: "normal" | "notable" | "keystone" | "jewel" | "start";
+  ascendancy?: string;
+  starts?: number[];
+  ascendancyStart?: boolean;
 };
 export type Build = {
   id: string;
@@ -22,6 +38,7 @@ export type Build = {
   nodes: PassiveNode[];
   treeSource?: string;
   allocated: string[];
+  pointBudget?: number;
   example: boolean;
   updated: string;
 };
@@ -69,6 +86,8 @@ export function newBuild(): Build {
     skills: [],
     nodes: [],
     allocated: [],
+    treeSource: "ggg-bd87e65",
+    pointBudget: 123,
     example: false,
     updated: new Date().toISOString(),
   };
@@ -102,6 +121,18 @@ export function parseBuild(value: unknown): Build {
         slot,
         name: typeof g?.name === "string" ? g.name.slice(0, 200) : "",
         mods: typeof g?.mods === "string" ? g.mods.slice(0, 5000) : "",
+        base: typeof g?.base === "string" ? g.base.slice(0, 200) : "",
+        rarity: typeof g?.rarity === "string" ? g.rarity.slice(0, 30) : "",
+        icon:
+          typeof g?.icon === "string" &&
+          /^https:\/\/web\.poecdn\.com\//.test(g.icon)
+            ? g.icon
+            : "",
+        properties:
+          typeof g?.properties === "string" ? g.properties.slice(0, 5000) : "",
+        itemClass:
+          typeof g?.itemClass === "string" ? g.itemClass.slice(0, 100) : "",
+        raw: typeof g?.raw === "string" ? g.raw.slice(0, 20000) : "",
         price:
           typeof g?.price === "number" &&
           Number.isFinite(g.price) &&
@@ -118,6 +149,13 @@ export function parseBuild(value: unknown): Build {
       )
       .slice(0, 20);
   if (Array.isArray(b.nodes)) result.nodes = parseTree(b.nodes);
+  result.treeSource = undefined;
+  if (
+    Number.isInteger(b.pointBudget) &&
+    Number(b.pointBudget) >= 0 &&
+    Number(b.pointBudget) <= 200
+  )
+    result.pointBudget = Number(b.pointBudget);
   if (b.treeSource === "ggg-bd87e65") result.treeSource = b.treeSource;
   if (Array.isArray(b.allocated))
     result.allocated = b.allocated.filter(
@@ -153,5 +191,14 @@ export function parseTree(value: unknown): PassiveNode[] {
     y: n.y,
     links: n.links.filter((l: string) => ids.has(l)),
     description: typeof n.description === "string" ? n.description : "",
+    icon: typeof n.icon === "string" ? n.icon : undefined,
+    kind: ["normal", "notable", "keystone", "jewel", "start"].includes(n.kind)
+      ? n.kind
+      : "normal",
+    ascendancy: typeof n.ascendancy === "string" ? n.ascendancy : undefined,
+    starts: Array.isArray(n.starts)
+      ? n.starts.filter((x: unknown) => Number.isInteger(x))
+      : undefined,
+    ascendancyStart: n.ascendancyStart === true,
   }));
 }

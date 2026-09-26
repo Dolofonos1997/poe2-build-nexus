@@ -23,7 +23,8 @@ Local browser tests use installed Chrome; CI uses Playwright Chromium. Routes us
 - Six-slot editable live hand, undo/redo, session replay, named local layouts, validated JSON import/export, share-by-URL with explicit import.
 - Goal-based recommendations with visible reasoning. These are deterministic heuristics, not a hosted LLM or loot-probability model.
 - Local build CRUD, search/filter/favorites, equipment for both weapon sets, entered gear-cost totals, skill/support groups, notes, and JSON import/export.
-- Official GGG passive-tree loader pinned to revision `bd87e6512c92b868542eddfb1ba4ea8b6dc2da36`: 5,152 positioned nodes, connections, descriptions and ascendancy nodes. The pinned dataset is cached for offline reuse after its first successful load. Custom JSON import, search, zoom, inspection and allocation recording are also supported.
+- Official GGG 0.5.5 passive tree pinned to revision `bd87e6512c92b868542eddfb1ba4ea8b6dc2da36`, now loaded by default. Canvas rendering uses GGG icon atlases, node frames, class backgrounds, positions and orbit connections. Class/ascendancy selection applies exported overrides, filters unrelated ascendancies, and enforces connected paths and configurable point budgets. Search, pan/zoom, full-tree view, dependent-branch refunds and undo are supported. Raw data and artwork cache after first successful load.
+- Visual equipment slots for both weapon sets, real unique-item search with source artwork/bases/modifier ranges, item preview and slot-specific equipping. Copied in-game rare/custom items can also be imported. Catalogue generation uses supported poe.ninja item overviews; ranges are not exact character rolls and no performance totals are fabricated.
 - Run ledger, net and hourly profit from recorded revenue/cost/time, manual timestamped price observations.
 - Complete local backup export and reviewed restore, plus cloud snapshot download/restore compatibility.
 - Production offline asset cache and web app manifest. Offline mode applies to Atlas, not the legacy page or cloud actions.
@@ -51,7 +52,7 @@ Advanced Temple planning now includes explicit sacrifice/assassination recipient
 ## Remaining roadmap / external requirements
 
 - Provision and validate the Supabase deployment, SMTP and abuse/rate-limit controls; add account recovery and deletion UX before broad public account rollout.
-- Apply class-specific tree overrides and enforce allocation/class-start/point constraints. The current official-tree view is a sourced allocation notebook, not a fully validated character tree.
+- Special ascendancy allocation exceptions, weapon-set passive splits, jewel mechanics and a full character-stat/DPS engine remain outside the basic connected-path planner. Passive budgets are explicitly editable; they are not inferred from level/quest completion.
 - Exact undocumented Temple RNG is not modeled; the exit simulator accepts explicit scenario loss counts and reports disconnections.
 - Market snapshots now use the supported poe.ninja exchange API through an hourly GitHub Actions collector, with real league/unit/timestamps, ETags, stale labels and failure fallback. No loot probabilities or Divine/hour predictions are fabricated.
 - Hosted AI code, authentication, database quotas, private advice history, token usage records, and deployment steps are ready in [BACKEND_SETUP.md](BACKEND_SETUP.md). The owner still needs to provision Supabase and set server-only model credentials before live AI calls can be verified.

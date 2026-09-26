@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { loadOfficialTree, OFFICIAL_TREE_URL } from "../lib/official-tree";
+import { useRef, useState } from "react";
+import { PassiveTree } from "../components/PassiveTree";
+import { Equipment } from "../components/Equipment";
 import {
   Plus,
   Search,
@@ -16,9 +17,7 @@ import {
   exampleBuilds,
   classes,
   parseBuild,
-  parseTree,
   type Build,
-  type PassiveNode,
 } from "../lib/builds";
 import { useLocal, download, readFile } from "../lib/storage";
 export default function Builds() {
@@ -144,7 +143,9 @@ export default function Builds() {
                     Class
                     <select
                       value={edit.cls}
-                      onChange={(e) => patch({ cls: e.target.value })}
+                      onChange={(e) =>
+                        patch({ cls: e.target.value, asc: "", allocated: [] })
+                      }
                     >
                       {classes.map((c) => (
                         <option key={c}>{c}</option>
@@ -207,72 +208,7 @@ export default function Builds() {
             </div>
           )}
           {tab === "Equipment" && (
-            <>
-              <p className="notice">
-                Prices are your own estimates in exalted orbs. Enter both weapon
-                sets independently.
-              </p>
-              <div className="gear-grid">
-                {edit.gear.map((g, i) => (
-                  <Panel key={g.slot}>
-                    <div className="eyebrow">{g.slot}</div>
-                    <label className="field">
-                      Item name
-                      <input
-                        value={g.name}
-                        onChange={(e) =>
-                          patch({
-                            gear: edit.gear.map((x, j) =>
-                              i === j ? { ...x, name: e.target.value } : x,
-                            ),
-                          })
-                        }
-                        placeholder="Empty slot"
-                      />
-                    </label>
-                    <label className="field">
-                      Modifiers
-                      <textarea
-                        rows={3}
-                        value={g.mods}
-                        onChange={(e) =>
-                          patch({
-                            gear: edit.gear.map((x, j) =>
-                              i === j ? { ...x, mods: e.target.value } : x,
-                            ),
-                          })
-                        }
-                        placeholder="Paste the item's modifiers"
-                      />
-                    </label>
-                    <label className="field">
-                      Estimated price (ex)
-                      <input
-                        type="number"
-                        min={0}
-                        value={g.price}
-                        onChange={(e) =>
-                          patch({
-                            gear: edit.gear.map((x, j) =>
-                              i === j
-                                ? { ...x, price: Math.max(0, +e.target.value) }
-                                : x,
-                            ),
-                          })
-                        }
-                      />
-                    </label>
-                  </Panel>
-                ))}
-              </div>
-              <p>
-                Total entered gear cost:{" "}
-                <strong>
-                  {edit.gear.reduce((s, g) => s + g.price, 0).toLocaleString()}{" "}
-                  ex
-                </strong>
-              </p>
-            </>
+            <Equipment build={edit} patch={patch} onMessage={setMessage} />
           )}
           {tab === "Skills" && (
             <Panel title="Skill & support groups">
@@ -458,241 +394,5 @@ export default function Builds() {
         {message}
       </div>
     </>
-  );
-}
-function PassiveTree({
-  build,
-  patch,
-  onMessage,
-}: {
-  build: Build;
-  patch: (v: Partial<Build>) => void;
-  onMessage: (v: string) => void;
-}) {
-  const file = useRef<HTMLInputElement>(null);
-  const [officialNodes, setOfficialNodes] = useState<PassiveNode[]>([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    let active = true;
-    if (build.treeSource === "ggg-bd87e65") {
-      setLoading(true);
-      loadOfficialTree()
-        .then((nodes) => {
-          if (active) setOfficialNodes(nodes);
-        })
-        .catch((e) => {
-          if (active) onMessage(e.message);
-        })
-        .finally(() => {
-          if (active) setLoading(false);
-        });
-    }
-    return () => {
-      active = false;
-    };
-  }, [build.treeSource]);
-  const [q, setQ] = useState(""),
-    [zoom, setZoom] = useState(1),
-    [hover, setHover] = useState<PassiveNode | null>(null);
-  const nodes =
-    build.treeSource === "ggg-bd87e65" ? officialNodes : build.nodes;
-  const nodeMap = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
-  const minX = nodes.length ? Math.min(...nodes.map((n) => n.x)) - 60 : 0,
-    minY = nodes.length ? Math.min(...nodes.map((n) => n.y)) - 60 : 0;
-  const w = nodes.length ? Math.max(...nodes.map((n) => n.x)) - minX + 60 : 800,
-    h = nodes.length ? Math.max(...nodes.map((n) => n.y)) - minY + 60 : 500;
-  return (
-    <Panel>
-      <div className="panel-top">
-        <h2>Passive tree</h2>
-        <div className="actions">
-          <button
-            disabled={loading}
-            onClick={() => {
-              setLoading(true);
-              loadOfficialTree()
-                .then((nodes) => {
-                  setOfficialNodes(nodes);
-                  patch({
-                    treeSource: "ggg-bd87e65",
-                    nodes: [],
-                    allocated: [],
-                  });
-                  onMessage(
-                    `Loaded ${nodes.length.toLocaleString()} nodes from Grinding Gear Games.`,
-                  );
-                })
-                .catch((e) => onMessage(e.message))
-                .finally(() => setLoading(false));
-            }}
-          >
-            {loading ? "Loading tree…" : "Load official GGG tree"}
-          </button>
-          <button onClick={() => file.current?.click()}>
-            Import tree JSON
-          </button>
-          <button
-            onClick={() =>
-              download("tree-format.json", [
-                {
-                  id: "your-node-id",
-                  name: "Your node name",
-                  x: 0,
-                  y: 0,
-                  links: [],
-                  description: "Replace this template with actual node data.",
-                },
-              ])
-            }
-          >
-            Format template
-          </button>
-        </div>
-      </div>
-      <input
-        hidden
-        ref={file}
-        type="file"
-        accept=".json"
-        onChange={async (e) => {
-          try {
-            if (e.target.files?.[0])
-              patch({
-                nodes: parseTree(await readFile(e.target.files[0])),
-                treeSource: undefined,
-                allocated: [],
-              });
-          } catch (e) {
-            onMessage((e as Error).message);
-          }
-          e.target.value = "";
-        }}
-      />
-      {!nodes.length ? (
-        <Empty title="Bring your passive tree">
-          Load the official GGG export or import your own node dataset to
-          search, inspect, and record allocations.
-        </Empty>
-      ) : (
-        <>
-          <div className="filter-bar">
-            <input
-              aria-label="Search passive nodes"
-              placeholder="Search nodes…"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-            />
-            <label className="check">
-              Zoom
-              <input
-                type="range"
-                min={0.5}
-                max={3}
-                step={0.1}
-                value={zoom}
-                onChange={(e) => setZoom(+e.target.value)}
-              />
-            </label>
-            <span>{build.allocated.length} allocated</span>
-          </div>
-          <p className="hint">
-            Allocation notebook; class-start reachability and passive-point
-            limits are not enforced.
-            {build.treeSource && (
-              <>
-                {" "}
-                <a href={OFFICIAL_TREE_URL} target="_blank" rel="noreferrer">
-                  GGG source · revision bd87e65 ↗
-                </a>{" "}
-                · Includes base and ascendancy nodes; class-specific overrides
-                are not applied.
-              </>
-            )}
-          </p>
-          <div className="tree-viewport">
-            <svg
-              width={Math.max(700, w * zoom)}
-              height={Math.max(450, h * zoom)}
-              viewBox={`${minX} ${minY} ${w} ${h}`}
-            >
-              {nodes.flatMap((n) =>
-                n.links.map((id) => {
-                  const other = nodeMap.get(id);
-                  return other ? (
-                    <line
-                      key={`${n.id}-${id}`}
-                      x1={n.x}
-                      y1={n.y}
-                      x2={other.x}
-                      y2={other.y}
-                      stroke={
-                        build.allocated.includes(n.id) &&
-                        build.allocated.includes(id)
-                          ? "#c5ab70"
-                          : "#3b4840"
-                      }
-                      strokeWidth="3"
-                    />
-                  ) : null;
-                }),
-              )}
-              {nodes.map((n) => (
-                <g
-                  key={n.id}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={n.name}
-                  aria-pressed={build.allocated.includes(n.id)}
-                  onFocus={() => setHover(n)}
-                  onMouseEnter={() => setHover(n)}
-                  onClick={() =>
-                    patch({
-                      allocated: build.allocated.includes(n.id)
-                        ? build.allocated.filter((id) => id !== n.id)
-                        : [...build.allocated, n.id],
-                    })
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      patch({
-                        allocated: build.allocated.includes(n.id)
-                          ? build.allocated.filter((id) => id !== n.id)
-                          : [...build.allocated, n.id],
-                      });
-                    }
-                  }}
-                >
-                  <circle
-                    cx={n.x}
-                    cy={n.y}
-                    r={14}
-                    fill={
-                      build.allocated.includes(n.id) ? "#c5ab70" : "#1c2b23"
-                    }
-                    stroke={
-                      q && n.name.toLowerCase().includes(q.toLowerCase())
-                        ? "#fff"
-                        : "#8e805d"
-                    }
-                    strokeWidth={3}
-                  />
-                  <title>{n.name}</title>
-                </g>
-              ))}
-            </svg>
-          </div>
-          <p>
-            {hover ? (
-              <>
-                <strong>{hover.name}</strong> · {hover.description}
-              </>
-            ) : (
-              "Select nodes to track allocations."
-            )}
-          </p>
-        </>
-      )}
-    </Panel>
   );
 }
