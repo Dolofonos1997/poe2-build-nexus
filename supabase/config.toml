@@ -1,0 +1,3 @@
+[functions.temple-advisor]
+# The handler validates the bearer token with auth.getUser, including new signing keys.
+verify_jwt = false
